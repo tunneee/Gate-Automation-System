@@ -1,5 +1,6 @@
 import serial                                           # import serial library
 import cv2
+import threading
 
 from facenet_pytorch import MTCNN, InceptionResnetV1, fixed_image_standardization
 import torch
@@ -81,11 +82,18 @@ CLOSED_POS = 90
 def get_number_in_string(string):
     return int(''.join(filter(str.isdigit, string)))
 
+def open_door():
+    arduino.write(str.encode(str(OPEN_POS)))
+    print("Openning door")
+
+def close_door():
+    arduino.write(str.encode(str(CLOSED_POS)))
+    print("Closing door")
 
 if __name__ == "__main__":
     arduino = serial.Serial()  # create serial object named arduino
     arduino.baudrate = 9600                                 # set baud rate
-    arduino.port = 'COM11'
+    arduino.port = 'COM12'
     arduino.open()                              # set COM port
     prev_frame_time = 0
     new_frame_time = 0
@@ -159,16 +167,21 @@ if __name__ == "__main__":
                 if VERIFY:
                         if int_distance < DISTANCE:
                                 if not OPEN:
-                                        arduino.write(str.encode(str(OPEN_POS)))
+                                        # arduino.write(str.encode(str(OPEN_POS)))
+                                        t1 = threading.Thread(target=open_door)
+                                        t1.start()
                                         OPEN = True
                                 else:
                                       continue
                 else:
                         if OPEN:
-                                arduino.write(str.encode(str(CLOSED_POS)))
+                                # arduino.write(str.encode(str(CLOSED_POS)))
+                                t1 = threading.Thread(target=close_door)
+                                t1.start()
                                 OPEN = False
                         else:
                                 continue
+                # t1.join()
 
                 
 

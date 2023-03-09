@@ -8,7 +8,7 @@ device =  torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 print(device)
 
 IMG_PATH = './data/test_images/'
-count = 400
+count = 200
 usr_name = input("Input ur name: ")
 USR_PATH = os.path.join(IMG_PATH, usr_name)
 leap = 1
