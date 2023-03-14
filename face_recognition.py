@@ -25,7 +25,7 @@ def load_faceslist():
     names = np.load(DATA_PATH+'/usernames.npy')
     return embeds, names
 
-def inference(model, face, local_embeds, threshold = 0.3):
+def inference(model, face, local_embeds, threshold = 0.2):
     #local: [n,512] voi n la so nguoi trong faceslist
     embeds = []
     # print(trans(face).unsqueeze(0).shape)

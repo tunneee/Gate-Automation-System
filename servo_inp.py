@@ -162,6 +162,7 @@ if __name__ == "__main__":
                 if cv2.waitKey(1) & 0xFF == 27:
                         break
                 distance = str(arduino.readline())
+                print(distance)
                 int_distance = get_number_in_string(distance)
                 print(int_distance)
                 if VERIFY:
@@ -173,14 +174,20 @@ if __name__ == "__main__":
                                         OPEN = True
                                 else:
                                       continue
-                else:
+                        else:
+                              if OPEN:
+                                    t1 = threading.Thread(target=close_door)
+                                    t1.start()
+                                    OPEN = False
+                else:   
                         if OPEN:
-                                # arduino.write(str.encode(str(CLOSED_POS)))
+                                # arduino.write(str.encode(str(CLOSED_POS))) 
                                 t1 = threading.Thread(target=close_door)
                                 t1.start()
                                 OPEN = False
                         else:
                                 continue
+                
                 # t1.join()
 
                 
