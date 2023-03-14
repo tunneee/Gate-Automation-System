@@ -1,2 +1,0 @@
-arduino.flushInput()
-                arduino.flushOutput()
