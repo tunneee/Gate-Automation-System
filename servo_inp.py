@@ -93,7 +93,7 @@ def close_door():
 if __name__ == "__main__":
     arduino = serial.Serial()  # create serial object named arduino
     arduino.baudrate = 9600                                 # set baud rate
-    arduino.port = 'COM12'
+    arduino.port = 'COM14'
     arduino.open()                              # set COM port
     prev_frame_time = 0
     new_frame_time = 0

@@ -7,7 +7,8 @@ LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 Servo myservo; 
 String inByte;
 int pos;
-int led = 13;
+int led1 = 13;
+int led2 = 6;
 const int trig = 8; // chan trig
 const int echo = 7; // chan echo
 
@@ -16,9 +17,10 @@ const int echo = 7; // chan echo
 void setup() {
 
   lcd.begin(16, 2);
-  lcd.print("Arduino!");
+  lcd.print("Automation Gate!");
   myservo.attach(9);
-  pinMode(led, OUTPUT);   
+  pinMode(led1, OUTPUT);   
+  pinMode(led2, OUTPUT);   
   Serial.begin(9600);
   pinMode(trig, OUTPUT);
   pinMode(echo, INPUT);
@@ -34,14 +36,14 @@ void distance() {
     digitalWrite(trig,1);   // phát xung từ chân trig
     delayMicroseconds(5);   // xung có độ dài 5 microSeconds
     digitalWrite(trig,0);   // tắt chân trig
-    pinMode(led, OUTPUT);   
+    // pinMode(led1, OUTPUT);   
     /* Tính toán thời gian */
     // Đo độ rộng xung HIGH ở chân echo. 
     duration = pulseIn(echo,HIGH);  
     // Tính khoảng cách đến vật.
     distance = int(duration/2/29.412);
-    lcd.setCursor(0, 1);
-    lcd.print("Welcome back");
+    // lcd.setCursor(0, 1);
+    // lcd.print("Welcome back");
     /* In kết quả ra Serial Monitor */
     Serial.print(distance);
     Serial.println("cm");
@@ -57,9 +59,15 @@ void loop()
     pos = inByte.toInt();   // change datatype from string to integer 
     if (pos > 100) {
       digitalWrite(13,HIGH);
+      digitalWrite(6,LOW);
+      lcd.setCursor(0, 1);
+      lcd.print("Welcome back");
     }
     else {
       digitalWrite(13,LOW);
+      digitalWrite(6,HIGH);
+      lcd.setCursor(0, 1);
+      lcd.print("Please login");
     }
     // if (pos > 180) {
     //   pos = 180;           
